@@ -86,18 +86,19 @@ fun main(args: Array<String>) {
 
         // Tabbed pane insets
         val keyTabInsets = "TabbedPane.tabInsets"
-        val paddingTab = 20
+        val paddingTabVertical = 20
+        val paddingTabHorizontal = 5
         val insetsTab = UIManager.getInsets(keyTabInsets)
-        insetsTab.top += paddingTab
-        insetsTab.bottom += paddingTab
-        insetsTab.left += paddingTab
-        insetsTab.right += paddingTab
+        insetsTab.top += paddingTabVertical
+        insetsTab.bottom += paddingTabVertical
+        insetsTab.left += paddingTabHorizontal
+        insetsTab.right += paddingTabHorizontal
         UIManager.put(keyTabInsets, insetsTab)
 
         // Tabbed pane colours
-        UIManager.put("TabbedPane.background", colourBlue)
-        UIManager.put("TabbedPane.selected", colourBlueSelected)
-        UIManager.put("TabbedPane.foreground", colourWhite)
+//        UIManager.put("TabbedPane.background", colourBlue)
+//        UIManager.put("TabbedPane.selected", colourBlueSelected)
+//        UIManager.put("TabbedPane.foreground", colourWhite)
     }
     customiseUI()
 
