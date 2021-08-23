@@ -10,18 +10,21 @@ class InterfaceHelper {
         private val runtime = Runtime.getRuntime()
 
         fun test(): Boolean {
-            println("Start")
             var success: Boolean = true
-            val process = runtime.exec(arrayOf("python", script.path))
+
+            val commands = mutableListOf("python")
+            commands.add(script.path.replace('\\', '/'))
+
+            val process = runtime.exec(commands.toTypedArray())
             process.waitFor()
-            process.inputStream.bufferedReader().use { outputStream -> {
-                println("Test")
-                process.errorStream.bufferedReader().use { errorStream -> {
-                    println("Reading output")
-                    if (errorStream.readLine() != null)
-                        success = false
-                } }
-            } }
+
+            println("Output:")
+            process.inputStream.bufferedReader().forEachLine(::println)
+            println("Error:")
+            process.errorStream.bufferedReader().forEachLine(::println)
+
+            if (process.exitValue() != 0)
+                return false
 
             return success
         }

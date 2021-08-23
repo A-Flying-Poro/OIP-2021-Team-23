@@ -110,4 +110,6 @@ fun main(args: Array<String>) {
         gui.defaultCloseOperation = WindowConstants.EXIT_ON_CLOSE
         gui.extendedState = gui.extendedState.or(JFrame.MAXIMIZED_BOTH)
     }
+
+    println("Python test: " + InterfaceHelper.test())
 }
