@@ -1,10 +1,7 @@
 package uk.ac.gla.student.oip2021.team23
 
 import uk.ac.gla.student.oip2021.team23.gui.GuiMainMenu
-import java.awt.EventQueue
-import java.awt.Font
-import java.awt.FontFormatException
-import java.awt.GraphicsEnvironment
+import java.awt.*
 import javax.swing.JFrame
 import javax.swing.UIManager
 import javax.swing.WindowConstants
@@ -12,7 +9,7 @@ import javax.swing.plaf.FontUIResource
 
 fun main(args: Array<String>) {
     fun customiseUI() {
-        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName())
+//        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName())
 
         fun loadFonts() {
             val fontFiles = mapOf(
@@ -29,6 +26,26 @@ fun main(args: Array<String>) {
                     "Roboto-Regular.ttf",
                     "Roboto-Thin.ttf",
                     "Roboto-ThinItalic.ttf"
+                ),
+                "Metropolis" to arrayOf(
+                    "Metropolis-Black.ttf",
+                    "Metropolis-BlackItalic.ttf",
+                    "Metropolis-Bold.ttf",
+                    "Metropolis-BoldItalic.ttf",
+                    "Metropolis-ExtraBold.ttf",
+                    "Metropolis-ExtraBoldItalic.ttf",
+                    "Metropolis-ExtraLight.ttf",
+                    "Metropolis-ExtraLightItalic.ttf",
+                    "Metropolis-Light.ttf",
+                    "Metropolis-LightItalic.ttf",
+                    "Metropolis-Medium.ttf",
+                    "Metropolis-MediumItalic.ttf",
+                    "Metropolis-Regular.ttf",
+                    "Metropolis-RegularItalic.ttf",
+                    "Metropolis-SemiBold.ttf",
+                    "Metropolis-SemiBoldItalic.ttf",
+                    "Metropolis-Thin.ttf",
+                    "Metropolis-ThinItalic.ttf"
                 )
             )
 
@@ -61,7 +78,11 @@ fun main(args: Array<String>) {
             }
         }
         loadFonts()
-        setFont(FontUIResource("Roboto", Font.PLAIN, 22))
+        setFont(FontUIResource("Metropolis", Font.PLAIN, 22))
+
+        val colourBlueSelected = Color(0x33b3fd)
+        val colourBlue = Color(0xB2DDF3)
+        val colourWhite = Color.WHITE
 
         // Tabbed pane insets
         val keyTabInsets = "TabbedPane.tabInsets"
@@ -72,6 +93,11 @@ fun main(args: Array<String>) {
         insetsTab.left += paddingTab
         insetsTab.right += paddingTab
         UIManager.put(keyTabInsets, insetsTab)
+
+        // Tabbed pane colours
+        UIManager.put("TabbedPane.background", colourBlue)
+        UIManager.put("TabbedPane.selected", colourBlueSelected)
+        UIManager.put("TabbedPane.foreground", colourWhite)
     }
     customiseUI()
 
