@@ -55,6 +55,7 @@
                   <borderPainted value="false"/>
                   <font size="36"/>
                   <foreground color="-1"/>
+                  <margin top="10" left="20" bottom="10" right="20"/>
                   <text value="START"/>
                 </properties>
               </component>
@@ -196,6 +197,7 @@
                   <borderPainted value="false"/>
                   <font size="36"/>
                   <foreground color="-1"/>
+                  <margin top="10" left="20" bottom="10" right="20"/>
                   <text value="START"/>
                 </properties>
               </component>
@@ -260,6 +262,7 @@
                   <borderPainted value="false"/>
                   <font size="36"/>
                   <foreground color="-1"/>
+                  <margin top="10" left="20" bottom="10" right="20"/>
                   <text value="START"/>
                 </properties>
               </component>

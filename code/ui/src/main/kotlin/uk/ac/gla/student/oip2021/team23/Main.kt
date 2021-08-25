@@ -7,10 +7,13 @@ import javax.swing.UIManager
 import javax.swing.WindowConstants
 import javax.swing.plaf.FontUIResource
 
+val guiWindow = JFrame("User Interface").apply {
+    defaultCloseOperation = WindowConstants.EXIT_ON_CLOSE
+    extendedState = extendedState.or(JFrame.MAXIMIZED_BOTH)
+}
+
 fun main(args: Array<String>) {
     fun customiseUI() {
-//        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName())
-
         fun loadFonts() {
             val fontFiles = mapOf(
                 "Roboto" to arrayOf(
@@ -102,14 +105,16 @@ fun main(args: Array<String>) {
     }
     customiseUI()
 
-    EventQueue.invokeLater {
-        val gui = JFrame("OIP UI")
-        val mainMenu = GuiMainMenu()
-        gui.contentPane = mainMenu.mainPanel;
-        gui.isVisible = true
-        gui.defaultCloseOperation = WindowConstants.EXIT_ON_CLOSE
-        gui.extendedState = gui.extendedState.or(JFrame.MAXIMIZED_BOTH)
+    println("Testing python interface...")
+    if (!InterfaceHelper.test()) {
+        System.err.println("Python interface test did not complete.")
+        return
     }
+    println("Python interface test success.")
 
-    println("Python test: " + InterfaceHelper.test())
+    EventQueue.invokeLater {
+        val mainMenu = GuiMainMenu()
+        guiWindow.contentPane = mainMenu.mainPanel;
+        guiWindow.isVisible = true
+    }
 }
