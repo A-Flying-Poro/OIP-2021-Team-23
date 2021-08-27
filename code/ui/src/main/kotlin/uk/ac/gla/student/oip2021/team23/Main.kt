@@ -115,7 +115,7 @@ fun main(args: Array<String>) {
 
     EventQueue.invokeLater {
         val mainMenu = GuiMainMenu()
-        guiWindow.contentPane = mainMenu.mainPanel;
+        guiWindow.contentPane = mainMenu.mainPanel
         guiWindow.isVisible = true
     }
 }

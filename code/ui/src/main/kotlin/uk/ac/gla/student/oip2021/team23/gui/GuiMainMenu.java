@@ -1,5 +1,8 @@
 package uk.ac.gla.student.oip2021.team23.gui;
 
+import uk.ac.gla.student.oip2021.team23.MainKt;
+import uk.ac.gla.student.oip2021.team23.sequence.WashSequences;
+
 import javax.swing.*;
 
 public class GuiMainMenu {
@@ -25,16 +28,20 @@ public class GuiMainMenu {
     private JButton buttonSelfClean;
 
     public GuiMainMenu() {
-        buttonFullWash.addActionListener(e -> onStartButtonPress(WashMode.WASH));
-        buttonDrying.addActionListener(e -> onStartButtonPress(WashMode.DRY));
-        buttonSelfClean.addActionListener(e -> onStartButtonPress(WashMode.SELF_CLEAN));
+        buttonFullWash.addActionListener(e -> onStartButtonPress(WashSequences.WASH));
+        buttonDrying.addActionListener(e -> onStartButtonPress(WashSequences.WASH));
+        buttonSelfClean.addActionListener(e -> onStartButtonPress(WashSequences.WASH));
     }
 
     public JPanel getMainPanel() {
         return panelMain;
     }
 
-    private void onStartButtonPress(WashMode mode) {
+    private void onStartButtonPress(WashSequences mode) {
         // TODO Add logic to start process
+        GuiProgress gui = new GuiProgress(mode);
+        JFrame mainWindow = MainKt.getGuiWindow();
+        mainWindow.setContentPane(gui.getMainPanel());
+        mainWindow.setVisible(true);
     }
 }
