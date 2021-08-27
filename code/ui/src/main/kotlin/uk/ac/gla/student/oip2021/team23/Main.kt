@@ -1,6 +1,7 @@
 package uk.ac.gla.student.oip2021.team23
 
 import uk.ac.gla.student.oip2021.team23.gui.GuiMainMenu
+import uk.ac.gla.student.oip2021.team23.interf.InterfaceHelper
 import java.awt.*
 import javax.swing.JFrame
 import javax.swing.UIManager
