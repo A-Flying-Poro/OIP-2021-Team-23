@@ -4,22 +4,32 @@ import java.io.File
 import java.util.concurrent.TimeUnit
 
 class InterfaceHelper {
-    companion object {
-        enum class Dryness {
-            WET,
-            DRY,
-            NOTFOUND
-        }
+    enum class Dryness {
+        WET,
+        DRY,
+        NOTFOUND
+    }
 
+    enum class State(val value: Int) {
+        NONE(0),
+        FILL(0b001),
+        REDUCE_TEMP(0b010),
+        WASH(0b011),
+        DRAIN(0b100),
+        RINSE(0b101),
+        DRY(0b110),
+        ALERT(0b111)
+    }
+    companion object {
         private val folder = File("interface")
         private val gpioInputScript = File(folder, "gpio-input.py")
         private val gpioOutputScript = File(folder, "gpio-output.py")
+        private val gpioOutputValueScript = File(folder, "gpio-output-value.py")
         private val gpioResetScript = File(folder, "gpio-reset.py")
 
-        private const val pinStop = 3 // out
-        private const val pinAck = 40 // in
-
-        private const val pinLid = 5 // in
+        private const val pinStop = 11 // out
+        private const val pinAck = 13 // in
+        private const val pinStopRemote = 15 // in
 
         private val runtime = Runtime.getRuntime()
 
@@ -97,7 +107,12 @@ class InterfaceHelper {
 
         @JvmStatic
         fun checkArduinoLidStatus(): Boolean {
-            return readPin(pinLid)
+            return readPin(pinStopRemote)
+        }
+
+        @JvmStatic
+        fun setStopped(stopped: Boolean) {
+            writePin(pinStop, stopped)
         }
 
         @JvmStatic
@@ -105,9 +120,8 @@ class InterfaceHelper {
             return readPin(pinAck)
         }
 
-        @JvmStatic
-        fun setStopped(stopped: Boolean) {
-            writePin(pinStop, stopped)
+        fun checkRemoteStopped(): Boolean {
+            return readPin(pinStopRemote)
         }
 
         @JvmStatic
@@ -139,6 +153,23 @@ class InterfaceHelper {
 
             val process = runtime.exec(commands)
             process.waitFor(1, TimeUnit.SECONDS)
+        }
+
+        @JvmStatic
+        fun writePinsValue(value: Int) {
+            val commands = arrayOf(
+                "python", gpioOutputValueScript.path,
+                "--value", value.toString()
+            )
+
+            val process = runtime.exec(commands)
+            process.waitFor(1, TimeUnit.SECONDS)
+            println("Output $value - exit code ${process.exitValue()}")
+        }
+
+        @JvmStatic
+        fun writePinsValue(state: State) {
+            writePinsValue(state.value)
         }
 
         @JvmStatic
