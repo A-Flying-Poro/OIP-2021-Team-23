@@ -1,10 +1,24 @@
 package uk.ac.gla.student.oip2021.team23.gui;
 
-import uk.ac.gla.student.oip2021.team23.WashMode;
-
 import javax.swing.*;
 
 public class GuiMainMenu {
+    public enum WashMode {
+        WASH(10),
+        DRY(10),
+        SELF_CLEAN(10);
+
+        private final int time;
+
+        WashMode(int time) {
+            this.time = time;
+        }
+
+        public int getTime() {
+            return time;
+        }
+    }
+
     private JPanel panelMain;
     private JButton buttonFullWash;
     private JButton buttonDrying;
