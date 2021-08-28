@@ -8,5 +8,6 @@ public class DialogOpenedLid extends JDialog {
     public DialogOpenedLid() {
         setContentPane(contentPane);
         setModalityType(DEFAULT_MODALITY_TYPE);
+        setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
     }
 }
