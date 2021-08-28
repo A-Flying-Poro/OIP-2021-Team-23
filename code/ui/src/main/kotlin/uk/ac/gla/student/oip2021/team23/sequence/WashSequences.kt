@@ -51,7 +51,7 @@ enum class WashSequences(val sequences: List<Sequence>) {
             Sequence(
                 "Drain",
                 "Draining...",
-                1,
+                2,
                 false,
                 outputState = InterfaceHelper.State.DRAIN
             ),
@@ -81,7 +81,33 @@ enum class WashSequences(val sequences: List<Sequence>) {
                 userPromptMessage = "COMPLETE"
             )
         )
+    ),
+    DRY(
+        listOf(
+            Sequence(
+                "Dry",
+                "Drying...",
+                15,
+                true,
+                outputState = InterfaceHelper.State.DRY,
+                repeatable = Sequence.Repeatable.DRY,
+                maxRepeatCount = 3
+            ),
+            Sequence(
+                "Buzzer",
+                "Complete!",
+                time = 0,
+                false,
+                outputState = InterfaceHelper.State.ALERT,
+                userPrompt = Sequence.PromptType.SUCCESS,
+                userPromptMessage = "COMPLETE"
+            )
+        )
     );
+
+    fun getTotalTime(): Int {
+        return sequences.sumOf { seq -> seq.time }
+    }
 
     companion object {
         @JvmStatic

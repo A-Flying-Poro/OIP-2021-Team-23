@@ -6,30 +6,17 @@ import uk.ac.gla.student.oip2021.team23.sequence.WashSequences;
 import javax.swing.*;
 
 public class GuiMainMenu {
-    public enum WashMode {
-        WASH(10),
-        DRY(10),
-        SELF_CLEAN(10);
-
-        private final int time;
-
-        WashMode(int time) {
-            this.time = time;
-        }
-
-        public int getTime() {
-            return time;
-        }
-    }
-
     private JPanel panelMain;
     private JButton buttonFullWash;
     private JButton buttonDrying;
     private JButton buttonSelfClean;
+    private JLabel labelWashTime;
+    private JLabel labelDryTime;
+    private JLabel labelCleanTime;
 
     public GuiMainMenu() {
         buttonFullWash.addActionListener(e -> onStartButtonPress(WashSequences.WASH));
-        buttonDrying.addActionListener(e -> onStartButtonPress(WashSequences.WASH));
+        buttonDrying.addActionListener(e -> onStartButtonPress(WashSequences.DRY));
         buttonSelfClean.addActionListener(e -> onStartButtonPress(WashSequences.WASH));
     }
 
@@ -43,5 +30,12 @@ public class GuiMainMenu {
         JFrame mainWindow = MainKt.getGuiWindow();
         mainWindow.setContentPane(gui.getMainPanel());
         mainWindow.setVisible(true);
+    }
+
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
+        labelWashTime = new JLabel(WashSequences.WASH.getTotalTime() + " min");
+        labelDryTime = new JLabel(WashSequences.DRY.getTotalTime() + " min");
+        labelCleanTime = new JLabel(WashSequences.WASH.getTotalTime() + " min");
     }
 }

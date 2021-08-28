@@ -105,13 +105,12 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="2826a" class="javax.swing.JLabel">
+                  <component id="2826a" class="javax.swing.JLabel" binding="labelWashTime" custom-create="true">
                     <constraints>
                       <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="5" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
                       <font size="36" style="1"/>
-                      <text value="30 min"/>
                     </properties>
                   </component>
                   <component id="4d489" class="javax.swing.JLabel">
@@ -209,13 +208,12 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="d2010" class="javax.swing.JLabel">
+                  <component id="d2010" class="javax.swing.JLabel" binding="labelDryTime" custom-create="true">
                     <constraints>
                       <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="5" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
                       <font size="36" style="1"/>
-                      <text value="15 min"/>
                     </properties>
                   </component>
                   <component id="26f65" class="javax.swing.JLabel">
@@ -311,13 +309,12 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="3d549" class="javax.swing.JLabel">
+                  <component id="3d549" class="javax.swing.JLabel" binding="labelCleanTime" custom-create="true">
                     <constraints>
                       <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="5" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
                       <font size="36" style="1"/>
-                      <text value="30 min"/>
                     </properties>
                   </component>
                   <component id="1cf7f" class="javax.swing.JLabel">
