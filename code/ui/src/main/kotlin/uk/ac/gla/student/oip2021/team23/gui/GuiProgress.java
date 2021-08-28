@@ -16,6 +16,15 @@ public class GuiProgress {
     private final Runnable timerAsyncRunnable = () -> {
         updateTimeText();
 
+        // User input check
+        if (this.dialogUserInput != null) {
+            if (this.dialogUserInput.isVisible()) {
+                System.out.println("Waiting for user's input...");
+                return;
+            } else {
+                this.dialogUserInput = null;
+            }
+        }
         // Status check
         if (InterfaceHelper.checkArduinoLidStatus()) {
             System.out.println("Lid is currently open");
@@ -58,7 +67,7 @@ public class GuiProgress {
                     InterfaceHelper.Dryness imageDetectionResult = this.threadImageDetection.result;
                     System.out.println("Image detection done, result: " + imageDetectionResult.toString());
                     if (imageDetectionResult == InterfaceHelper.Dryness.DRY || this.currentSequenceRepeated >= currentSequence.getMaxRepeatCount()) {
-                        repeatedSequence = false;
+                        // repeatedSequence = false;
                         System.out.println("No restarts required, resuming...");
                     } else {
                         this.currentSequenceRepeated ++;
@@ -79,6 +88,25 @@ public class GuiProgress {
             if (!this.sequencesLeft.isEmpty()) { // Start next sequence
                 Sequence nextSequence = this.sequencesLeft.getFirst();
                 InterfaceHelper.writePinsValue(nextSequence.getOutputState());
+
+                // User dialog prompts
+                if (nextSequence.getUserPrompt() != null) {
+                    JDialog dialog;
+                    switch (nextSequence.getUserPrompt()) {
+                        case INFO:
+                            dialog = new DialogInfo(nextSequence.getUserPromptMessage());
+                            break;
+                        case SUCCESS:
+                            dialog = new DialogSuccess(nextSequence.getUserPromptMessage());
+                            break;
+                        default:
+                            dialog = null;
+                    }
+                    if (dialog != null) {
+                        dialog.setVisible(true);
+                        this.dialogUserInput = dialog;
+                    }
+                }
             } else {
                 InterfaceHelper.writePinsValue(InterfaceHelper.State.NONE);
             }
@@ -102,6 +130,7 @@ public class GuiProgress {
     private LinkedList<Sequence> sequencesLeft;
     private long timeCurrentRunning = 0;
     private int currentSequenceRepeated = 0;
+    private JDialog dialogUserInput = null;
 
     private DetectionThread threadImageDetection = null;
 
