@@ -4,6 +4,7 @@ import uk.ac.gla.student.oip2021.team23.MainKt;
 import uk.ac.gla.student.oip2021.team23.sequence.WashSequences;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class GuiMainMenu {
     private JPanel panelMain;
@@ -25,11 +26,12 @@ public class GuiMainMenu {
     }
 
     private void onStartButtonPress(WashSequences mode) {
-        // TODO Add logic to start process
-        GuiProgress gui = new GuiProgress(mode);
-        JFrame mainWindow = MainKt.getGuiWindow();
-        mainWindow.setContentPane(gui.getMainPanel());
-        mainWindow.setVisible(true);
+        EventQueue.invokeLater(() -> {
+            GuiProgress gui = new GuiProgress(mode);
+            JFrame mainWindow = MainKt.getGuiWindow();
+            mainWindow.setContentPane(gui.getMainPanel());
+            mainWindow.setVisible(true);
+        });
     }
 
     private void createUIComponents() {
