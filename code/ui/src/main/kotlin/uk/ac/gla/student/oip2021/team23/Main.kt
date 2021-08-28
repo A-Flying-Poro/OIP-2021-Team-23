@@ -2,7 +2,10 @@ package uk.ac.gla.student.oip2021.team23
 
 import uk.ac.gla.student.oip2021.team23.gui.GuiMainMenu
 import uk.ac.gla.student.oip2021.team23.interf.InterfaceHelper
-import java.awt.*
+import java.awt.EventQueue
+import java.awt.Font
+import java.awt.FontFormatException
+import java.awt.GraphicsEnvironment
 import javax.swing.JFrame
 import javax.swing.UIManager
 import javax.swing.WindowConstants
@@ -84,10 +87,6 @@ fun main(args: Array<String>) {
         loadFonts()
         setFont(FontUIResource("Metropolis", Font.PLAIN, 22))
 
-        val colourBlueSelected = Color(0x33b3fd)
-        val colourBlue = Color(0xB2DDF3)
-        val colourWhite = Color.WHITE
-
         // Tabbed pane insets
         val keyTabInsets = "TabbedPane.tabInsets"
         val paddingTabVertical = 20
@@ -98,11 +97,6 @@ fun main(args: Array<String>) {
         insetsTab.left += paddingTabHorizontal
         insetsTab.right += paddingTabHorizontal
         UIManager.put(keyTabInsets, insetsTab)
-
-        // Tabbed pane colours
-//        UIManager.put("TabbedPane.background", colourBlue)
-//        UIManager.put("TabbedPane.selected", colourBlueSelected)
-//        UIManager.put("TabbedPane.foreground", colourWhite)
     }
     customiseUI()
 
@@ -111,6 +105,7 @@ fun main(args: Array<String>) {
         System.err.println("Python interface test did not complete.")
         return
     }
+    InterfaceHelper.setup()
     println("Python interface test success.")
 
     EventQueue.invokeLater {

@@ -27,6 +27,10 @@ class InterfaceHelper {
         private val gpioOutputValueScript = File(folder, "gpio-output-value.py")
         private val gpioResetScript = File(folder, "gpio-reset.py")
 
+        private const val pinMsb = 3
+        private const val pin2sb = 5
+        private const val pinLsb = 7
+
         private const val pinStop = 11 // out
         private const val pinAck = 13 // in
         private const val pinStopRemote = 15 // in
@@ -115,13 +119,20 @@ class InterfaceHelper {
             writePin(pinStop, stopped)
         }
 
+        var acknowledged = false
         @JvmStatic
         fun checkAcknowledged(): Boolean {
-            return readPin(pinAck)
+            if (acknowledged)
+                return true
+            val currentAck = readPin(pinAck)
+            if (currentAck)
+                acknowledged = currentAck
+            return currentAck
         }
 
-        fun checkRemoteStopped(): Boolean {
-            return readPin(pinStopRemote)
+        @JvmStatic
+        fun resetAcknowledgement() {
+            acknowledged = false
         }
 
         @JvmStatic
@@ -186,8 +197,17 @@ class InterfaceHelper {
         @JvmStatic
         fun resetPins() {
             arrayOf(
-                pinStop
+                pinStop,
+                pinMsb,
+                pin2sb,
+                pinLsb
             ).forEach { resetPin(it) }
+        }
+
+        @JvmStatic
+        fun setup() {
+            writePin(pinStop, false)
+            writePinsValue(0)
         }
     }
 }
