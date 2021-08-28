@@ -61,7 +61,6 @@
                 </constraints>
                 <properties>
                   <font size="48" style="1"/>
-                  <text value="Message"/>
                 </properties>
               </component>
             </children>
