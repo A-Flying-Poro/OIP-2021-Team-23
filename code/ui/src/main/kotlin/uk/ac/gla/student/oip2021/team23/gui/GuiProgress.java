@@ -1,10 +1,12 @@
 package uk.ac.gla.student.oip2021.team23.gui;
 
+import uk.ac.gla.student.oip2021.team23.MainKt;
 import uk.ac.gla.student.oip2021.team23.interf.InterfaceHelper;
 import uk.ac.gla.student.oip2021.team23.sequence.Sequence;
 import uk.ac.gla.student.oip2021.team23.sequence.WashSequences;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.LinkedList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -26,7 +28,7 @@ public class GuiProgress {
             }
         }
         // Status check
-        if (InterfaceHelper.checkArduinoLidStatus()) {
+        if (InterfaceHelper.checkLidStatus()) {
             System.out.println("Lid is currently open");
             if (!this.dialogOpenedLid.isVisible())
                 this.dialogOpenedLid.setVisible(true);
@@ -108,7 +110,14 @@ public class GuiProgress {
                     }
                 }
             } else {
+                // Cleanup
                 InterfaceHelper.writePinsValue(InterfaceHelper.State.NONE);
+                /*EventQueue.invokeLater(() -> {
+                    JFrame window = MainKt.getGuiWindow();
+                    GuiMainMenu mainMenu = new GuiMainMenu();
+                    window.setContentPane(mainMenu.getMainPanel());
+                    window.setVisible(true);
+                });*/
             }
             updateCurrentStatus();
             this.timeCurrentRunning = 1000 / frequency;
@@ -159,6 +168,12 @@ public class GuiProgress {
                     System.out.println("Timer ended");
                     this.cancel();
 
+                    EventQueue.invokeLater(() -> {
+                        JFrame window = MainKt.getGuiWindow();
+                        GuiMainMenu mainMenu = new GuiMainMenu();
+                        window.setContentPane(mainMenu.getMainPanel());
+                        window.setVisible(true);
+                    });
                 } else {
                     Thread async = new Thread(timerAsyncRunnable, "Timer Async Thread");
                     async.start();

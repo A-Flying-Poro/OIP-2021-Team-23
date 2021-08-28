@@ -110,7 +110,7 @@ class InterfaceHelper {
         }
 
         @JvmStatic
-        fun checkArduinoLidStatus(): Boolean {
+        fun checkLidStatus(): Boolean {
             return readPin(pinStopRemote)
         }
 
