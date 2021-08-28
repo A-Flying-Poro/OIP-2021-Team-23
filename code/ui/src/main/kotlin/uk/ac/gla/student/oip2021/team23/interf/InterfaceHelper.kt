@@ -144,6 +144,7 @@ class InterfaceHelper {
 
             val process = runtime.exec(commands)
             process.waitFor(1, TimeUnit.SECONDS)
+            println("GPIO Helper > Reading from pin '$pin' with exit code: ${process.exitValue()}")
 
             val output = process.inputStream.bufferedReader().readLines()
             if (output.isEmpty())
@@ -164,6 +165,11 @@ class InterfaceHelper {
 
             val process = runtime.exec(commands)
             process.waitFor(1, TimeUnit.SECONDS)
+            println("GPIO Helper > Outputting '$value' to pin '$pin' with exit code: ${process.exitValue()}")
+            if (process.exitValue() != 0) {
+                println("GPIO Helper > Script error code:")
+                process.errorStream.bufferedReader().lines().forEach { println("GPIO Helper > $it") }
+            }
         }
 
         @JvmStatic
@@ -175,7 +181,11 @@ class InterfaceHelper {
 
             val process = runtime.exec(commands)
             process.waitFor(1, TimeUnit.SECONDS)
-            println("Output $value - exit code ${process.exitValue()}")
+            println("GPIO Helper > Outputting '$value' with exit code: ${process.exitValue()}")
+            if (process.exitValue() != 0) {
+                println("GPIO Helper > Script error code:")
+                process.errorStream.bufferedReader().lines().forEach { println("GPIO Helper > $it") }
+            }
         }
 
         @JvmStatic
