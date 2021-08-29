@@ -62,7 +62,7 @@ enum class WashSequences(val sequences: List<Sequence>) {
                 true,
                 outputState = InterfaceHelper.State.RINSE
             ),
-            SequenceUtil.getDrySequence(20, true),
+            SequenceUtil.getDrySequence(20),
             Sequence(
                 "Buzzer",
                 "Complete!",
@@ -76,7 +76,7 @@ enum class WashSequences(val sequences: List<Sequence>) {
     ),
     DRY(
         listOf(
-            SequenceUtil.getDrySequence(20, true),
+            SequenceUtil.getDrySequence(20),
             Sequence(
                 "Buzzer",
                 "Complete!",
