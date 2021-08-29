@@ -8,20 +8,20 @@ enum class WashSequences(val sequences: List<Sequence>) {
             Sequence(
                 "Fill",
                 "Filling...",
-                5,
+                2,
                 true,
                 outputState = InterfaceHelper.State.FILL
             ),
             Sequence(
                 "Soak",
                 "Soaking...",
-                1,
+                5,
                 false
             ),
             Sequence(
                 "Reduce Temperature",
                 "Reducing temperature...",
-                1,
+                2,
                 true,
                 outputState = InterfaceHelper.State.REDUCE_TEMP
             ),
@@ -36,7 +36,7 @@ enum class WashSequences(val sequences: List<Sequence>) {
             Sequence(
                 "Ultrasonic Wash",
                 "Washing...",
-                1,
+                5,
                 false,
                 outputState = InterfaceHelper.State.WASH
             ),
@@ -58,19 +58,11 @@ enum class WashSequences(val sequences: List<Sequence>) {
             Sequence(
                 "Rinse",
                 "Rinsing...",
-                10,
+                15,
                 true,
                 outputState = InterfaceHelper.State.RINSE
             ),
-            Sequence(
-                "Dry",
-                "Drying...",
-                15,
-                true,
-                outputState = InterfaceHelper.State.DRY,
-                repeatable = Sequence.Repeatable.DRY,
-                maxRepeatCount = 3
-            ),
+            WashSequences.getDrySequence(15),
             Sequence(
                 "Buzzer",
                 "Complete!",
@@ -91,7 +83,7 @@ enum class WashSequences(val sequences: List<Sequence>) {
                 true,
                 outputState = InterfaceHelper.State.DRY,
                 repeatable = Sequence.Repeatable.DRY,
-                maxRepeatCount = 3
+                maxRepeatCount = WashSequences.maxRepeatDry
             ),
             Sequence(
                 "Buzzer",
@@ -110,15 +102,25 @@ enum class WashSequences(val sequences: List<Sequence>) {
     }
 
     companion object {
+        private const val maxRepeatDry = 1
+
         @JvmStatic
-        val dryRepeatable = Sequence(
-            "Dry",
-            "Dying...",
-            5,
-            true,
-            outputState = InterfaceHelper.State.DRY,
-            repeatable = Sequence.Repeatable.DRY,
-            maxRepeatCount = 3
-        )
+        fun getDrySequence(time: Int): Sequence {
+            return Sequence(
+                "Dry",
+                "Dying...",
+                time,
+                true,
+                outputState = InterfaceHelper.State.DRY,
+                repeatable = Sequence.Repeatable.DRY,
+                maxRepeatCount = maxRepeatDry
+            )
+        }
+
+        @JvmStatic
+        fun getDrySequence() = getDrySequence(drySequenceTime)
+
+        @JvmStatic
+        val drySequenceTime = 5
     }
 }
