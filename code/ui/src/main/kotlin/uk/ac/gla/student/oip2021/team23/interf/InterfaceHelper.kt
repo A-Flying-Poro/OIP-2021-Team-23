@@ -73,7 +73,7 @@ class InterfaceHelper {
         fun detectDryWet(): Dryness {
             val modelFolder = File(folder, "models")
             val scriptFile = File(folder, "pycoral_object_detection.py")
-            val modelFile = File(modelFolder, "version2_edgetpu.tflite")
+            val modelFile = File(modelFolder, "version3_edgetpu.tflite")
             val labelFile = File(modelFolder, "syringe_labels.txt")
 
             val commands = arrayOf(
@@ -92,21 +92,26 @@ class InterfaceHelper {
 
             val errorOutput = process.errorStream.bufferedReader().readLines()
             if (errorOutput.isNotEmpty()) {
-                System.err.println("Detection model error:")
+                System.err.println("Image Detection > Detection model error:")
                 errorOutput.forEach(System.err::println)
+            }
+            if (process.exitValue() != 0) {
+                System.err.println("Image Detection > Exit code: ${process.exitValue()}")
                 return Dryness.NOTFOUND
             }
-            if (process.exitValue() != 0)
-                return Dryness.NOTFOUND
             val processOutput = process.inputStream.bufferedReader().readLines()
-            if (processOutput.isEmpty())
+            if (processOutput.isEmpty()) {
+                println("Image Detection > Result: ${Dryness.NOTFOUND}")
                 return Dryness.NOTFOUND
+            }
 
-            return when (processOutput[0]) {
+            val dryness = when (processOutput[0]) {
                 "dry" -> Dryness.DRY
                 "wet" -> Dryness.WET
                 else -> Dryness.NOTFOUND
             }
+            println("Image Detection > Result: $dryness")
+            return dryness
         }
 
         @JvmStatic
@@ -119,7 +124,7 @@ class InterfaceHelper {
             writePin(pinStop, stopped)
         }
 
-        var acknowledged = false
+        private var acknowledged = false
         @JvmStatic
         fun checkAcknowledged(): Boolean {
             if (acknowledged)

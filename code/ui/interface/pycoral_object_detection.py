@@ -55,14 +55,16 @@ def main():
     time.sleep(2)
 
     fps = FPS().start()
-    
-    count = 0
-    result = 0
 
-    timeStart = timer()
-    found = False
-    
-    while (timer() - timeStart < 10):
+    counts = {}
+
+    framesReceived = 0
+
+    framesTotal = 30
+    framesInference = framesTotal * 0.6
+
+    while (framesReceived < framesTotal):
+        framesReceived += 1
         try:
             # Read frame from video
             screenshot = vs.read()
@@ -77,23 +79,21 @@ def main():
     
 
             if(len(objs) != 0):
-                if result == objs[0].id:
-                    result = objs[0].id
-                    count+=1 
+                detectedId = objs[0].id
+                if detectedId not in counts:
+                    counts[detectedId] = 1
                 else:
-                    result = objs[0].id
-                    count = 0
+                    counts[detectedId] += 1
             
             #if the inference results occurs the same 3 times
-            if(count == 10):
-                found = True
-                if(result == 0):
-                    print("dry")
-                else:
-                    print("wet")
-                fps.stop()
-                break
-            
+            # if(count >= framesInference):
+            #     found = True
+            #     if(result == 0):
+            #         print("dry")
+            #     else:
+            #         print("wet")
+            #     fps.stop()
+            #     break
             
             if(cv2.waitKey(5) & 0xFF == ord('q')):
                 fps.stop()
@@ -104,8 +104,21 @@ def main():
             fps.stop()
             break
 
-    if not found:
-        print("missing")
+    #if not found:
+    #    print("missing")
+
+    highestId = None
+    highestCount = 0
+    for detectedId, detectedCount in counts.items():
+        if highestId is None or detectedCount > highestCount:
+            highestId = detectedId
+            highestCount = detectedCount
+
+    result = "missing"
+    if highestId is not None or highestCount >= framesInference:
+        result = labels.get(obj.id, obj.id)
+
+    print(result)
 
 #     print("Elapsed time: " + str(fps.elapsed()))
 #     print("Approx FPS: :" + str(fps.fps()))
