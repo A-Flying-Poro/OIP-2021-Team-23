@@ -63,12 +63,12 @@ public class GuiProgress {
             if (currentSequence.getRepeatable() == Sequence.Repeatable.DRY) {
                 // Image detection to check if a restart is needed
                 if (this.threadImageDetection == null) { // Start image detection
-                    InterfaceHelper.writePinsValue(InterfaceHelper.State.NONE);
+                    InterfaceHelper.writePinsValue(InterfaceHelper.State.DRY);
                     this.threadImageDetection = new DetectionThread();
                     this.threadImageDetection.start();
 
                     // Skip any actions after this
-                    System.out.println("Waiting for image detection...");
+                    System.out.println("Starting image detection...");
                     updateCurrentStatus("Detecting moisture...");
                     return;
                 } else if (!this.threadImageDetection.isAlive()) { // Image detection done
@@ -76,6 +76,7 @@ public class GuiProgress {
                     // dry -> continue
                     // wet -> restart
                     // unknown -> restart
+                    InterfaceHelper.writePinsValue(InterfaceHelper.State.NONE);
                     InterfaceHelper.Dryness imageDetectionResult = this.threadImageDetection.result;
                     System.out.println("Image detection done, result: " + imageDetectionResult.toString());
                     if (imageDetectionResult == InterfaceHelper.Dryness.DRY || this.currentSequenceRepeated >= currentSequence.getMaxRepeatCount()) {

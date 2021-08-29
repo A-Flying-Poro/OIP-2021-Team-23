@@ -115,8 +115,8 @@ def main():
             highestCount = detectedCount
 
     result = "missing"
-    if highestId is not None or highestCount >= framesInference:
-        result = labels.get(obj.id, obj.id)
+    if highestId is not None and highestCount >= framesInference:
+        result = labels.get(highestId, highestId)
 
     print(result)
 

@@ -31,7 +31,7 @@ enum class WashSequences(val sequences: List<Sequence>) {
                 0,
                 false,
                 userPrompt = Sequence.PromptType.INFO,
-                userPromptMessage = "Please press start on the ultrasonic cleaner."
+                userPromptMessage = "Start ultrasonic cleaner"
             ),
             Sequence(
                 "Ultrasonic Wash",
@@ -46,7 +46,7 @@ enum class WashSequences(val sequences: List<Sequence>) {
                 0,
                 false,
                 userPrompt = Sequence.PromptType.INFO,
-                userPromptMessage = "Please press stop on the ultrasonic cleaner."
+                userPromptMessage = "Stop ultrasonic cleaner"
             ),
             Sequence(
                 "Drain",
