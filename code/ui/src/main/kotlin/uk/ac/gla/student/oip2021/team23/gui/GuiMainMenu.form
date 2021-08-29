@@ -294,7 +294,7 @@
                         <constraints/>
                         <properties>
                           <font size="24"/>
-                          <text value="1. Remove plunger from syringe.&#10;2. Place syringe and plunger onto holders.&#10;3. Close lid.&#10;4. Press Start."/>
+                          <text value="1. Make sure basin is empty.&#10;2. Close lid.&#10;3. Press Start."/>
                         </properties>
                       </component>
                     </children>
