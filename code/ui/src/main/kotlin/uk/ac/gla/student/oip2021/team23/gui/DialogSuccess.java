@@ -27,6 +27,8 @@ public class DialogSuccess extends JDialog {
         });
 
         buttonOK.addActionListener(e -> onOK());
+
+        pack();
     }
 
     private void onOK() {
