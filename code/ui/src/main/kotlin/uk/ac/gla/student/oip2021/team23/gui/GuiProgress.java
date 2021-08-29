@@ -53,8 +53,8 @@ public class GuiProgress {
             this.signalWithdrewAcknowledgeSequence = true;
         }
 
-        boolean acknowledgementReceived = currentSequence.getRequireAcknowledgement() && InterfaceHelper.checkAcknowledged();
-        boolean sequenceTimeCompleted = /*currentSequence.getTime() > 0 &&*/ this.timeCurrentRunning >= currentSequence.getTime() * 60 * 1000L;
+        boolean acknowledgementReceived = currentSequence.getRequireAcknowledgement() && this.timeCurrentRunning >= 10 * 1000L && InterfaceHelper.checkAcknowledged();
+        boolean sequenceTimeCompleted = this.timeCurrentRunning >= currentSequence.getTime() * 60 * 1000L;
 
         // When current sequence is done
         if (acknowledgementReceived || sequenceTimeCompleted) {
