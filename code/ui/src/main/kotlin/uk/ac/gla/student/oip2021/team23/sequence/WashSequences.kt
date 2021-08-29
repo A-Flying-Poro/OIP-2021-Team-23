@@ -62,7 +62,7 @@ enum class WashSequences(val sequences: List<Sequence>) {
                 true,
                 outputState = InterfaceHelper.State.RINSE
             ),
-            WashSequences.getDrySequence(15),
+            SequenceUtil.getDrySequence(15),
             Sequence(
                 "Buzzer",
                 "Complete!",
@@ -83,7 +83,7 @@ enum class WashSequences(val sequences: List<Sequence>) {
                 true,
                 outputState = InterfaceHelper.State.DRY,
                 repeatable = Sequence.Repeatable.DRY,
-                maxRepeatCount = WashSequences.maxRepeatDry
+                maxRepeatCount = SequenceUtil.maxRepeatDry
             ),
             Sequence(
                 "Buzzer",
@@ -99,28 +99,5 @@ enum class WashSequences(val sequences: List<Sequence>) {
 
     fun getTotalTime(): Int {
         return sequences.sumOf { seq -> seq.time }
-    }
-
-    companion object {
-        private const val maxRepeatDry = 1
-
-        @JvmStatic
-        fun getDrySequence(time: Int): Sequence {
-            return Sequence(
-                "Dry",
-                "Dying...",
-                time,
-                true,
-                outputState = InterfaceHelper.State.DRY,
-                repeatable = Sequence.Repeatable.DRY,
-                maxRepeatCount = maxRepeatDry
-            )
-        }
-
-        @JvmStatic
-        fun getDrySequence() = getDrySequence(drySequenceTime)
-
-        @JvmStatic
-        val drySequenceTime = 5
     }
 }

@@ -3,6 +3,7 @@ package uk.ac.gla.student.oip2021.team23.gui;
 import uk.ac.gla.student.oip2021.team23.MainKt;
 import uk.ac.gla.student.oip2021.team23.interf.InterfaceHelper;
 import uk.ac.gla.student.oip2021.team23.sequence.Sequence;
+import uk.ac.gla.student.oip2021.team23.sequence.SequenceUtil;
 import uk.ac.gla.student.oip2021.team23.sequence.WashSequences;
 
 import javax.swing.*;
@@ -75,7 +76,7 @@ public class GuiProgress {
                         System.out.println("No restarts required, resuming...");
                     } else {
                         this.currentSequenceRepeated ++;
-                        this.sequencesLeft.add(1, WashSequences.getDrySequence());
+                        this.sequencesLeft.add(1, SequenceUtil.getDrySequence());
                         repeatedSequence = true;
                         System.out.println("Restart requested, current restart count: " + this.currentSequenceRepeated + "/" + currentSequence.getMaxRepeatCount());
                     }
