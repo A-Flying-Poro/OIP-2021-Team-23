@@ -8,7 +8,7 @@ enum class WashSequences(val sequences: List<Sequence>) {
             Sequence(
                 "Fill",
                 "Filling...",
-                2,
+                5,
                 true,
                 outputState = InterfaceHelper.State.FILL
             ),
@@ -21,7 +21,7 @@ enum class WashSequences(val sequences: List<Sequence>) {
             Sequence(
                 "Reduce Temperature",
                 "Reducing temperature...",
-                2,
+                5,
                 true,
                 outputState = InterfaceHelper.State.REDUCE_TEMP
             ),
@@ -36,7 +36,7 @@ enum class WashSequences(val sequences: List<Sequence>) {
             Sequence(
                 "Ultrasonic Wash",
                 "Washing...",
-                5,
+                12,
                 false,
                 outputState = InterfaceHelper.State.WASH
             ),
@@ -51,14 +51,14 @@ enum class WashSequences(val sequences: List<Sequence>) {
             Sequence(
                 "Drain",
                 "Draining...",
-                2,
+                5,
                 false,
                 outputState = InterfaceHelper.State.DRAIN
             ),
             Sequence(
                 "Rinse",
                 "Rinsing...",
-                15,
+                10,
                 true,
                 outputState = InterfaceHelper.State.RINSE
             ),
@@ -70,21 +70,13 @@ enum class WashSequences(val sequences: List<Sequence>) {
                 false,
                 outputState = InterfaceHelper.State.ALERT,
                 userPrompt = Sequence.PromptType.SUCCESS,
-                userPromptMessage = "COMPLETE"
+                userPromptMessage = "Completed!"
             )
         )
     ),
     DRY(
         listOf(
-            Sequence(
-                "Dry",
-                "Drying...",
-                15,
-                true,
-                outputState = InterfaceHelper.State.DRY,
-                repeatable = Sequence.Repeatable.DRY,
-                maxRepeatCount = SequenceUtil.maxRepeatDry
-            ),
+            SequenceUtil.getDrySequence(15),
             Sequence(
                 "Buzzer",
                 "Complete!",
@@ -92,7 +84,7 @@ enum class WashSequences(val sequences: List<Sequence>) {
                 false,
                 outputState = InterfaceHelper.State.ALERT,
                 userPrompt = Sequence.PromptType.SUCCESS,
-                userPromptMessage = "COMPLETE"
+                userPromptMessage = "Completed!"
             )
         )
     );
