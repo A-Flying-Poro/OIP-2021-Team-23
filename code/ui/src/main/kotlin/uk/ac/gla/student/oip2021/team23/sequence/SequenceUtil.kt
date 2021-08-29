@@ -4,7 +4,7 @@ import uk.ac.gla.student.oip2021.team23.interf.InterfaceHelper
 
 class SequenceUtil {
     companion object {
-        const val maxRepeatDry = 2
+        private const val maxRepeatDry = 2
 
         @JvmStatic
         fun getDrySequence(time: Int): Sequence {

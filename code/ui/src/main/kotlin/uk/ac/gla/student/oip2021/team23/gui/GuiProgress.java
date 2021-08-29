@@ -150,7 +150,7 @@ public class GuiProgress {
     private int currentSequenceRepeated = 0;
     private JDialog dialogUserInput = null;
 
-    private final int timeSignalHeldAcknowledgeTotal = 5000;
+    private final long timeSignalHeldAcknowledgeTotal = 5000;
     private boolean signalWithdrewAcknowledgeSequence = false;
 
     private DetectionThread threadImageDetection = null;
