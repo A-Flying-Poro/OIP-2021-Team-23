@@ -164,6 +164,7 @@ public class GuiProgress {
 
         start();
         updateTimeText();
+        updateCurrentStatus();
     }
 
     private TimerTask generateNewTimerTask() {
