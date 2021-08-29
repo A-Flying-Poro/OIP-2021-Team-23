@@ -15,6 +15,7 @@ public class GuiProgress {
     private static final int frequency = 1; // number of times to run per second
 
     private final Timer timer = new Timer("Clock Timer");
+    private TimerTask timerTask = null;
     private final Runnable timerAsyncRunnable = () -> {
         updateTimeText();
 
@@ -105,6 +106,7 @@ public class GuiProgress {
                             dialog = null;
                     }
                     if (dialog != null) {
+                        dialog.setLocationRelativeTo(null);
                         dialog.setVisible(true);
                         this.dialogUserInput = dialog;
                     }
@@ -112,12 +114,6 @@ public class GuiProgress {
             } else {
                 // Cleanup
                 InterfaceHelper.writePinsValue(InterfaceHelper.State.NONE);
-                /*EventQueue.invokeLater(() -> {
-                    JFrame window = MainKt.getGuiWindow();
-                    GuiMainMenu mainMenu = new GuiMainMenu();
-                    window.setContentPane(mainMenu.getMainPanel());
-                    window.setVisible(true);
-                });*/
             }
             updateCurrentStatus();
             this.timeCurrentRunning = 1000 / frequency;
@@ -153,8 +149,18 @@ public class GuiProgress {
     public GuiProgress(WashSequences sequences) {
         this.sequencesLeft = new LinkedList<>(sequences.getSequences());
 
-        dialogOpenedLid.pack();
         dialogOpenedLid.setLocationRelativeTo(null);
+
+        buttonStop.addActionListener(e -> {
+            if (timerTask == null) return;
+
+            InterfaceHelper.setStopped(true);
+            timerTask.cancel();
+            timerTask = null;
+            DialogPause dialogPause = new DialogPause(this);
+            dialogPause.setLocationRelativeTo(null);
+            dialogPause.setVisible(true);
+        });
 
         start();
         updateTimeText();
@@ -168,12 +174,7 @@ public class GuiProgress {
                     System.out.println("Timer ended");
                     this.cancel();
 
-                    EventQueue.invokeLater(() -> {
-                        JFrame window = MainKt.getGuiWindow();
-                        GuiMainMenu mainMenu = new GuiMainMenu();
-                        window.setContentPane(mainMenu.getMainPanel());
-                        window.setVisible(true);
-                    });
+                    stop();
                 } else {
                     Thread async = new Thread(timerAsyncRunnable, "Timer Async Thread");
                     async.start();
@@ -204,8 +205,25 @@ public class GuiProgress {
     }
 
     public void start() {
-        TimerTask timerTask = generateNewTimerTask();
+        InterfaceHelper.setStopped(false);
+        timerTask = generateNewTimerTask();
         timer.scheduleAtFixedRate(timerTask, 0, 1000 / frequency);
+    }
+
+    public void stop() {
+        InterfaceHelper.setStopped(false);
+        InterfaceHelper.writePinsValue(InterfaceHelper.State.NONE);
+
+        if (dialogUserInput != null)
+            dialogUserInput.dispose();
+        dialogOpenedLid.dispose();
+
+        EventQueue.invokeLater(() -> {
+            JFrame window = MainKt.getGuiWindow();
+            GuiMainMenu mainMenu = new GuiMainMenu();
+            window.setContentPane(mainMenu.getMainPanel());
+            window.setVisible(true);
+        });
     }
 
     public JPanel getMainPanel() {
