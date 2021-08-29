@@ -7,12 +7,12 @@ class SequenceUtil {
         private const val maxRepeatDry = 2
 
         @JvmStatic
-        fun getDrySequence(time: Int): Sequence {
+        fun getDrySequence(time: Int, requireAcknowledgement: Boolean = true): Sequence {
             return Sequence(
                 "Dry",
                 "Dying...",
                 time,
-                true,
+                requireAcknowledgement,
                 outputState = InterfaceHelper.State.DRY,
                 repeatable = Sequence.Repeatable.DRY,
                 maxRepeatCount = maxRepeatDry
@@ -20,7 +20,7 @@ class SequenceUtil {
         }
 
         @JvmStatic
-        fun getDrySequence() = getDrySequence(drySequenceTime)
+        fun getDrySequence() = getDrySequence(drySequenceTime, false)
 
         @JvmStatic
         val drySequenceTime = 5
