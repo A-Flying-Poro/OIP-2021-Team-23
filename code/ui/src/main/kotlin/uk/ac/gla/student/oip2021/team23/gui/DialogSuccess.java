@@ -3,17 +3,17 @@ package uk.ac.gla.student.oip2021.team23.gui;
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.Objects;
 
 public class DialogSuccess extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JLabel labelMessage;
 
-    private String message;
+    private final String message;
 
     public DialogSuccess(String message) {
-        this.message = Objects.requireNonNullElse(message, "Message");
+        this.message = message;
+
         setContentPane(contentPane);
         setModalityType(DEFAULT_MODALITY_TYPE);
         getRootPane().setDefaultButton(buttonOK);
@@ -27,8 +27,6 @@ public class DialogSuccess extends JDialog {
         });
 
         buttonOK.addActionListener(e -> onOK());
-
-        pack();
     }
 
     private void onOK() {

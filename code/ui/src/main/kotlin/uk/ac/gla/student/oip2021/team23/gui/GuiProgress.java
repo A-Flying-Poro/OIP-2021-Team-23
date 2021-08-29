@@ -22,17 +22,18 @@ public class GuiProgress {
         // User input check
         if (this.dialogUserInput != null) {
             if (this.dialogUserInput.isVisible()) {
-                System.out.println("Waiting for user's input...");
+                // System.out.println("Waiting for user's input...");
                 return;
             } else {
                 this.dialogUserInput = null;
+                System.out.println("User input closed, resuming...");
             }
         }
         // Status check
         if (InterfaceHelper.checkLidStatus()) {
             System.out.println("Lid is currently open");
             if (!this.dialogOpenedLid.isVisible())
-                this.dialogOpenedLid.setVisible(true);
+                EventQueue.invokeLater(() -> this.dialogOpenedLid.setVisible(true));
             return;
         }
         this.dialogOpenedLid.setVisible(false);
@@ -45,7 +46,7 @@ public class GuiProgress {
         }
 
         boolean acknowledgementReceived = currentSequence.getRequireAcknowledgement() && InterfaceHelper.checkAcknowledged();
-        boolean sequenceTimeCompleted = currentSequence.getTime() > 0 && this.timeCurrentRunning >= currentSequence.getTime() * 60 * 1000L;
+        boolean sequenceTimeCompleted = /*currentSequence.getTime() > 0 &&*/ this.timeCurrentRunning >= currentSequence.getTime() * 60 * 1000L;
 
         // When current sequence is done
         if (acknowledgementReceived || sequenceTimeCompleted) {
@@ -74,7 +75,7 @@ public class GuiProgress {
                         System.out.println("No restarts required, resuming...");
                     } else {
                         this.currentSequenceRepeated ++;
-                        this.sequencesLeft.add(1, WashSequences.getDryRepeatable());
+                        this.sequencesLeft.add(1, WashSequences.getDrySequence());
                         repeatedSequence = true;
                         System.out.println("Restart requested, current restart count: " + this.currentSequenceRepeated + "/" + currentSequence.getMaxRepeatCount());
                     }
@@ -94,20 +95,22 @@ public class GuiProgress {
 
                 // User dialog prompts
                 if (nextSequence.getUserPrompt() != null) {
+                    String message = nextSequence.getUserPromptMessage();
                     JDialog dialog;
                     switch (nextSequence.getUserPrompt()) {
                         case INFO:
-                            dialog = new DialogInfo(nextSequence.getUserPromptMessage());
+                            dialog = new DialogInfo(message);
                             break;
                         case SUCCESS:
-                            dialog = new DialogSuccess(nextSequence.getUserPromptMessage());
+                            dialog = new DialogSuccess(message);
                             break;
                         default:
                             dialog = null;
                     }
                     if (dialog != null) {
+                        dialog.pack();
                         dialog.setLocationRelativeTo(null);
-                        dialog.setVisible(true);
+                        EventQueue.invokeLater(() -> dialog.setVisible(true));
                         this.dialogUserInput = dialog;
                     }
                 }
@@ -157,9 +160,11 @@ public class GuiProgress {
             InterfaceHelper.setStopped(true);
             timerTask.cancel();
             timerTask = null;
-            DialogPause dialogPause = new DialogPause(this);
-            dialogPause.setLocationRelativeTo(null);
-            dialogPause.setVisible(true);
+            EventQueue.invokeLater(() -> {
+                DialogPause dialogPause = new DialogPause(this);
+                dialogPause.setLocationRelativeTo(null);
+                dialogPause.setVisible(true);
+            });
         });
 
         start();
