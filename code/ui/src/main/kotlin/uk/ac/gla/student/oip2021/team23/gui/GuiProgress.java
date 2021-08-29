@@ -46,6 +46,13 @@ public class GuiProgress {
             InterfaceHelper.writePinsValue(currentSequence.getOutputState());
         }
 
+        if (currentSequence.getRequireAcknowledgement() &&
+                this.timeCurrentRunning >= this.timeSignalHeldAcknowledgeTotal &&
+                !this.signalWithdrewAcknowledgeSequence) {
+            InterfaceHelper.writePinsValue(InterfaceHelper.State.NONE);
+            this.signalWithdrewAcknowledgeSequence = true;
+        }
+
         boolean acknowledgementReceived = currentSequence.getRequireAcknowledgement() && InterfaceHelper.checkAcknowledged();
         boolean sequenceTimeCompleted = /*currentSequence.getTime() > 0 &&*/ this.timeCurrentRunning >= currentSequence.getTime() * 60 * 1000L;
 
@@ -90,6 +97,7 @@ public class GuiProgress {
 
             this.sequencesLeft.removeFirst();
             InterfaceHelper.resetAcknowledgement();
+            this.signalWithdrewAcknowledgeSequence = false;
             if (!this.sequencesLeft.isEmpty()) { // Start next sequence
                 Sequence nextSequence = this.sequencesLeft.getFirst();
                 InterfaceHelper.writePinsValue(nextSequence.getOutputState());
@@ -140,6 +148,9 @@ public class GuiProgress {
     private long timeCurrentRunning = 0;
     private int currentSequenceRepeated = 0;
     private JDialog dialogUserInput = null;
+
+    private final int timeSignalHeldAcknowledgeTotal = 5000;
+    private boolean signalWithdrewAcknowledgeSequence = false;
 
     private DetectionThread threadImageDetection = null;
 
