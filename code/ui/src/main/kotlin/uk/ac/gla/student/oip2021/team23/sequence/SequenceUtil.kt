@@ -10,7 +10,7 @@ class SequenceUtil {
         fun getDrySequence(time: Int, requireAcknowledgement: Boolean = true): Sequence {
             return Sequence(
                 "Dry",
-                "Dying...",
+                "Drying...",
                 time,
                 requireAcknowledgement,
                 outputState = InterfaceHelper.State.DRY,
